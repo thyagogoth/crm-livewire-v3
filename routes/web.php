@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Route;
 Route::get('/login', Login::class)->name('auth.login');
 Route::get('/register', Register::class)->name('auth.register');
 Route::get('/logout', fn () => auth()->logout())->name('auth.logout');
+Route::get('/password/recovery', fn () => 'password recovery')->name('auth.password.recovery');
 
 Route::middleware(['auth'])
     ->group(function () {
