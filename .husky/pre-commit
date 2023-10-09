@@ -1,0 +1,33 @@
+#!/usr/bin/env sh
+. "$(dirname -- "$0")/_/husky.sh"
+
+# Rodar o phpstan
+# docker-compose exec -T laravel.test ./vendor/bin/phpstan analyze
+./vendor/bin/sail php ./vendor/bin/phpstan analyze
+if [ $? -ne 0 ]; then
+    echo "🤕 O PHPStan detectou alguns problemas. Verifique antes de tentar novamente!";
+    exit 1;
+fi;
+
+# rodar os testes
+# php artisan test --parallel | php
+# sail pest
+# ./vendor/bin/sail artisan test --parallel
+./vendor/bin/sail pest
+ if [ $? -ne 0 ]; then
+     echo "🤕 A etapa de testes verificou que algum teste não passou. Verifique antes de tentar novamente!";
+     exit 1;
+ fi;
+
+# Formatar cada arquivo alterado usando o Laravel Pint
+STAGED_FILES=$(git diff --cached --name-only --diff-filter=ACM | grep ".php\{0,1\}$") || true
+
+for FILE in $STAGED_FILES
+do
+    ./vendor/bin/sail pint "${FILE}" > /dev/null >&1;
+    git add "${FILE}";
+done;
+
+echo "🚀 GO! GO! GO!";
+
+exit 0;
