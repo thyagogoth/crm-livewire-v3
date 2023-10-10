@@ -28,9 +28,6 @@ class Recovery extends Component
 
         $this->validate();
 
-//        $user = User::whereEmail($this->email)->first();
-//        $user?->notify(new PasswordRecoveryNotification());
-
         Password::sendResetLink([
             'email' => $this->email
         ]);
