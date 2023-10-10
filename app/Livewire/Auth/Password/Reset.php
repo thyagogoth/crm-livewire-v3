@@ -3,8 +3,7 @@
 namespace App\Livewire\Auth\Password;
 
 use Illuminate\Contracts\View\View;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\{DB, Hash};
 use Livewire\Component;
 
 class Reset extends Component
@@ -15,7 +14,7 @@ class Reset extends Component
     {
         $this->token = request('token');
 
-        if ( $this->tokenNotValid() ) {
+        if ($this->tokenNotValid()) {
             session()->flash('status', 'Invalid token');
             $this->redirectRoute('auth.login');
         }
