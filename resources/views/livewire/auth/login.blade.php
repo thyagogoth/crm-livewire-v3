@@ -1,6 +1,15 @@
 <x-card shadow class="mx-auto w-[350px] bg-base-300">
     <x-toast />
 
+    @if($message = session()->get('status'))
+        <x-alert
+            icon="o-check-circle"
+            class="alert-error pb-4 text-sm"
+            shadow>
+            {{ $message }}
+        </x-alert>
+    @endif
+
     @if($errors->hasAny(['invalidCredentials', 'rateLimiter']))
         @error('invalidCredentials')
         <x-alert

@@ -2,7 +2,6 @@
 
 use App\Livewire\Auth\Password\Recovery;
 use App\Models\User;
-use App\Notifications\PasswordRecoveryNotification;
 use Illuminate\Auth\Notifications\ResetPassword;
 use Illuminate\Support\Facades\Notification;
 use Livewire\Livewire;
