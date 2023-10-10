@@ -5,6 +5,7 @@ namespace App\Livewire\Auth;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Support\Facades\{Auth, RateLimiter};
 use Illuminate\Support\Str;
+use Livewire\Attributes\Layout;
 use Livewire\Attributes\Rule;
 use Livewire\Component;
 use Mary\Traits\Toast;
@@ -19,10 +20,10 @@ class Login extends Component
     #[Rule(['required'])]
     public ?string $password = null;
 
+    #[Layout('components.layouts.guest')]
     public function render()
     {
-        return view('livewire.auth.login')
-            ->layout('components.layouts.guest');
+        return view('livewire.auth.login');
     }
 
     public function submit()
