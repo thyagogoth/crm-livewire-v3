@@ -4,6 +4,7 @@ namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
@@ -29,4 +30,21 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
         'password'          => 'hashed',
     ];
+
+    private function permissions(): BelongsToMany // permissions == roles
+    {
+        return $this->belongsToMany(Permission::class);
+    }
+
+    public function givePermissionTo(string $key): void
+    {
+        $this->permissions()->firstOrCreate(['key' => $key]);
+    }
+
+    public function hasPermissionTo(string $key): bool
+    {
+        return $this->permissions()
+            ->where(['key' => $key])
+            ->exists();
+    }
 }

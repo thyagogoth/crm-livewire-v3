@@ -26,7 +26,7 @@ test('need to receive a valid token with a combination with the email and open t
                 ->assertSuccessful();
 
             get(route('password.reset') . '?token=any-token')
-                ->assertRedirect(route('auth.login'));
+                ->assertRedirect(route('login'));
 
             return true;
         }
@@ -56,7 +56,7 @@ test('test if is possible to reset the password with the given token', function 
                 ->set('password_confirmation', 'new-password')
                 ->call('updatePassword')
                 ->assertHasNoErrors()
-                ->assertRedirect(route('auth.login'));
+                ->assertRedirect(route('login'));
 
             $user->refresh();
 

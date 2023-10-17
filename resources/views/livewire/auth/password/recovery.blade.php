@@ -14,7 +14,7 @@
         <x-input label="Email" wire:model="email"/>
         <x-slot:actions>
             <div class="w-full flex items-center justify-between">
-                <a wire:navigate href="{{ route('auth.login') }}" class="link link-primary text-sm">
+                <a wire:navigate href="{{ route('login') }}" class="link link-primary text-sm">
                     already have an account?
                 </a>
                 <div>
