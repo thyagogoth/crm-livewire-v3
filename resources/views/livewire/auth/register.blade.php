@@ -6,7 +6,7 @@
         <x-input label="Password" wire:model="password" type="password"/>
         <x-slot:actions>
             <div class="w-full flex items-center justify-between">
-                <a wire:navigate href="{{ route('auth.login') }}" class="link link-primary text-sm">
+                <a wire:navigate href="{{ route('login') }}" class="link link-primary text-sm">
                     Already registered
                 </a>
             </div>

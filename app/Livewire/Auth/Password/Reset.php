@@ -33,7 +33,7 @@ class Reset extends Component
 
             session()->flash('status', 'Token Invalid');
 
-            $this->redirectRoute('auth.login');
+            $this->redirectRoute('login');
         }
     }
 
@@ -64,7 +64,7 @@ class Reset extends Component
             return;
         }
 
-        $this->redirect(route('auth.login'));
+        $this->redirect(route('login'));
     }
 
     #[Computed]
