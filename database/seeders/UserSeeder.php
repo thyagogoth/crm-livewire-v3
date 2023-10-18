@@ -16,14 +16,10 @@ class UserSeeder extends Seeder
         User::factory()
             ->withPermission(Can::BE_AN_ADMIN)
             ->create([
-                'name'  => 'Admin CRM',
-                'email' => 'admin@crm.com',
+                'name'     => 'Admin CRM',
+                'email'    => 'admin@crm.com',
+                'password' => '4n0n3ff3ct',
             ]);
 
-        //        User::factory()->create([
-        //            'name'     => 'Thiago F. da Rosa',
-        //            'email'    => 'thyagogoth@gmail.com',
-        //            'password' => Hash::make('4n0n3ff3ct'),
-        //        ]);
     }
 }

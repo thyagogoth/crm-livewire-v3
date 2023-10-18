@@ -23,7 +23,7 @@
             <!-- User -->
             @if($user = auth()->user())
                 <x-list-item :item="$user" sub-value="username" no-separator no-hover class="!-mx-2 mt-2 mb-5 border-y border-y-sky-900">
-                    <x-slot:actions>
+••••••••••                    <x-slot:actions>
                         <div class="tooltip tooltip-left" data-tip="logoff">
                             <livewire:auth.logout />
                         </div>
@@ -38,6 +38,12 @@
                 <x-menu-item title="Wifi" icon="o-wifi" link="####" />
                 <x-menu-item title="Archives" icon="o-archive-box" link="####" />
             </x-menu-sub>
+
+            @can(\App\Enums\Can::BE_AN_ADMIN->value)
+            <x-menu-sub title="Admin" icon="o-lock-closed">
+                <x-menu-item title="Dashboard" icon="o-computer-desktop" :link="route('admin.dashboard')" />
+            </x-menu-sub>
+            @endcan
         </x-menu>
     </x-slot:sidebar>
 
