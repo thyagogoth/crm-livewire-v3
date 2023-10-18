@@ -24,12 +24,11 @@ class AuthServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        foreach(Can::cases() as $can) {
+        foreach (Can::cases() as $can) {
             Gate::define(
-                str($can->value)->snake('-')->toString(),
+                $can->value,
                 fn (User $user) => $user->hasPermissionTo($can)
             );
-
         }
     }
 }
