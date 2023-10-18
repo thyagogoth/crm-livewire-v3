@@ -16,13 +16,11 @@ Route::middleware(['auth'])
             ->name('dashboard');
 
         //region Admin Routes
-
         Route::prefix('admin')->middleware(['can:be-an-admin'])->group(function () {
 
             Route::get('/dashboard', fn () => 'admin.dashboard')
                 ->name('admin.dashboard');
 
         });
-
         // endregion
     });

@@ -9,6 +9,10 @@ class Permission extends Model
 {
     protected $fillable = ['key'];
 
+    protected $casts = [
+        'key' => Can::class,
+    ];
+
     public function users(): BelongsToMany
     {
         return $this->belongsToMany(User::class);

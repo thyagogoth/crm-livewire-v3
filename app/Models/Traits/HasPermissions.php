@@ -2,14 +2,17 @@
 
 namespace App\Models\Traits;
 
+use App\Models\Can;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Facades\Cache;
 
 trait HasPermissions
 {
-    public function givePermissionTo(string $key): void
+    public function givePermissionTo(Can|string $key): void
     {
-        $this->permissions()->firstOrCreate(['key' => $key]);
+        $pKey = $key instanceof Can ? $key->value : $key;
+
+        $this->permissions()->firstOrCreate(['key' => $pKey]);
 
         $cacheKey = $this->getPermissionCacheKey();
         Cache::forget($cacheKey);
@@ -19,14 +22,16 @@ trait HasPermissions
         );
     }
 
-    public function hasPermissionTo(string $key): bool
+    public function hasPermissionTo(Can|string $key): bool
     {
+
+        $pKey = $key instanceof Can ? $key->value : $key;
 
         /** @var Collection|mixed $permissions */
         $permissions = Cache::get($this->getPermissionCacheKey(), $this->permissions);
 
         return $permissions
-            ->where(['key' => $key])
+            ->where(['key' => $pKey])
             ->isNotEmpty();
     }
 
