@@ -22,6 +22,8 @@ Route::middleware(['auth'])
             Route::get('/dashboard', Admin\Dashboard::class)
                 ->name('admin.dashboard');
 
+            Route::get('/users', Admin\Users\Index::class)->name('admin.users');
+
         });
         // endregion
     });
