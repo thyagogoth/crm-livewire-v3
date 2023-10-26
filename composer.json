@@ -13,7 +13,7 @@
         "laravel/tinker": "^2.8",
         "livewire/livewire": "^3.0",
         "marvinlabs/laravel-discord-logger": "^1.4",
-        "robsontenorio/mary": "^0.38.3"
+        "robsontenorio/mary": "^0"
     },
     "require-dev": {
         "barryvdh/laravel-debugbar": "^3.9",

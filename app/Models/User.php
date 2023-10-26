@@ -6,6 +6,7 @@ namespace App\Models;
 use App\Traits\Models\HasPermissions;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
@@ -16,6 +17,7 @@ class User extends Authenticatable
     use HasFactory;
     use Notifiable;
     use HasPermissions;
+    use SoftDeletes;
 
     protected $fillable = [
         'name',
@@ -36,6 +38,11 @@ class User extends Authenticatable
     public function permissions(): BelongsToMany // permissions == roles
     {
         return $this->belongsToMany(Permission::class);
+    }
+
+    public function trashed()
+    {
+        return $this->deleted_at !== null;
     }
 
 }

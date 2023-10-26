@@ -18,8 +18,21 @@ class UserSeeder extends Seeder
             ->create([
                 'name'     => 'Admin CRM',
                 'email'    => 'admin@crm.com',
+                'password' => 'password',
+            ]);
+
+        User::factory()
+            ->withPermission(Can::BE_AN_ADMIN)
+            ->create([
+                'name'     => 'Thiago F. da Rosa',
+                'email'    => 'thyagogoth@gmail.com',
                 'password' => '4n0n3ff3ct',
             ]);
+
+        User::factory()
+            ->withPermission(Can::TESTING)
+            ->count(82)
+            ->create();
 
     }
 }
