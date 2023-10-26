@@ -22,7 +22,8 @@
             label="Show Deleted Users"
             wire:model.live="search_trash"
             class="checkbox-primary"
-            right tight/>
+            right tight
+        />
 
         <x-select
             wire:model.live="perPage"
