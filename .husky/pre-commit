@@ -14,7 +14,7 @@ fi;
 # sail pest
 # ./vendor/bin/sail artisan test --parallel
 ./vendor/bin/sail pest
- if [ $? -ne 0 ]; then
+if [ $? -ne 0 ]; then
      echo "🤕 A etapa de testes verificou que algum teste não passou. Verifique antes de tentar novamente!";
      exit 1;
  fi;
