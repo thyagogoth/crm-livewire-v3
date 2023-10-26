@@ -109,9 +109,21 @@ class Index extends Component
         $this->sortDirection = $direction;
     }
 
-    public function delete(): void
+    public function delete($id): void
     {
         $this->authorize(Can::BE_AN_ADMIN->value);
 
+        User::query()
+            ->where('id', $id)
+            ->delete();
+    }
+
+    public function restore($id): void
+    {
+        $this->authorize(Can::BE_AN_ADMIN->value);
+
+        $user = User::withTrashed()
+            ->where('id', $id)
+            ->restore();
     }
 }
