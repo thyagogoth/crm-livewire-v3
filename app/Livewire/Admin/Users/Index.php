@@ -27,7 +27,7 @@ class Index extends Component
 
     public Collection $permissionsToSearch;
 
-    public string $sortDirection = 'asc';
+    public string $sortDirection = 'desc';
 
     public string $sortColumnBy = 'id';
 
@@ -59,16 +59,18 @@ class Index extends Component
             ->when(
                 $this->search,
                 fn (Builder $q) => $q
-                    ->where(
-                        DB::raw('lower(name)'), /** @phpstan-ignore-line */
-                        'like',
-                        '%' . strtolower($this->search) . '%'
-                    )
-                    ->orWhere(
-                        'email',
-                        'like',
-                        '%' . strtolower($this->search) . '%'
-                    )
+                    ->where(function (Builder $query) {
+                        $query->where(
+                            DB::raw('lower(name)'), /** @phpstan-ignore-line */
+                            'like',
+                            '%' . strtolower($this->search) . '%'
+                        )
+                        ->orWhere(
+                            'email',
+                            'like',
+                            '%' . strtolower($this->search) . '%'
+                        );
+                    })
             )
             ->when(
                 $this->search_permissions,
