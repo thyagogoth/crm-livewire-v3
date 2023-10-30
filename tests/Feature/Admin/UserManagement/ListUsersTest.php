@@ -4,6 +4,7 @@ use App\Enums\Can;
 use App\Livewire\Admin;
 
 use App\Models\{Permission, User};
+use Illuminate\Pagination\LengthAwarePaginator;
 use Livewire\Livewire;
 
 use function Pest\Laravel\{actingAs, get};
@@ -205,4 +206,22 @@ it('should be able to restore a deleted user', function () {
             return true;
         });
 
+});
+
+it('should be able to paginate resultss', function () {
+    $admin = User::factory()->admin()->create(['name' => 'Joe Doe', 'email' => 'admin@gmail.com']);
+    User::factory()->withPermission(Can::TESTING)->count(30)->create();
+
+    actingAs($admin);
+
+    $per_page = 20;
+
+    Livewire::test(Admin\Users\Index::class)
+        ->set('perPage', $per_page)
+        ->assertSet('users', function (LengthAwarePaginator $users) use ($per_page) {
+            expect($users)
+                ->toHaveCount($per_page);
+
+            return true;
+        });
 });
