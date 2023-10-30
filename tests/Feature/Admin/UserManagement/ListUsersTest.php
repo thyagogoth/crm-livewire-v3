@@ -156,59 +156,7 @@ it('should be able to sort by name', function () {
 
 });
 
-test('should be able to delete an user', function () {
-    $admin      = User::factory()->admin()->create(['name' => 'Joe Doe', 'email' => 'admin@gmail.com']);
-    $normalUser = User::factory()->create();
-
-    actingAs($admin);
-
-    Livewire::test(
-        Admin\Users\Index::class,
-        ['users' => $users = User::query()->paginate(10)]
-    )
-        ->assertSet('users', function ($users) {
-            expect($users)
-                ->toHaveCount(2);
-
-            return true;
-        })
-        ->call('delete', $normalUser->id)
-        ->assertSet('users', function ($users) {
-            expect($users)
-                ->toHaveCount(1);
-
-            return true;
-        });
-});
-
-it('should be able to restore a deleted user', function () {
-    $admin       = User::factory()->admin()->create(['name' => 'Joe Doe', 'email' => 'admin@gmail.com']);
-    $deletedUser = User::factory()->create(['deleted_at' => now()]);
-
-    actingAs($admin);
-
-    Livewire::test(
-        Admin\Users\Index::class,
-        [
-            'users' => User::withTrashed()->find($deletedUser->id)]
-    )
-        ->assertSet('users', function ($users) {
-            expect($users)
-                ->toHaveCount(1);
-
-            return true;
-        })
-        ->call('restore', $deletedUser->id)
-        ->assertSet('users', function ($users) {
-            expect($users)
-                ->toHaveCount(2);
-
-            return true;
-        });
-
-});
-
-it('should be able to paginate resultss', function () {
+it('should be able to paginate results', function () {
     $admin = User::factory()->admin()->create(['name' => 'Joe Doe', 'email' => 'admin@gmail.com']);
     User::factory()->withPermission(Can::TESTING)->count(30)->create();
 

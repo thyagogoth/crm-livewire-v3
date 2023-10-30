@@ -1,7 +1,8 @@
 <div>
     <x-header title="Users" separator/>
 
-    <div class="mb-4 flex space-x-4 items-center">
+
+    <div class="mb-4 flex space-x-4">
         <div class="w-1/3">
             <x-input
                 label="Search by email or name"
@@ -22,8 +23,7 @@
             label="Show Deleted Users"
             wire:model.live="search_trash"
             class="checkbox-primary"
-            right tight
-        />
+            right tight/>
 
         <x-select
             wire:model.live="perPage"
@@ -52,9 +52,17 @@
         @endscope
 
         @scope('actions', $user)
-        @can(App\Enums\Can::BE_AN_ADMIN->value)
+        @can(\App\Enums\Can::BE_AN_ADMIN->value)
             @unless($user->trashed())
-                <x-button icon="o-trash" wire:click="delete({{ $user->id }})" spinner class="btn-sm"/>
+                @unless($user->is(auth()->user()))
+                    <x-button
+                        id="delete-btn-{{ $user->id }}"
+                        wire:key="delete-btn-{{ $user->id }}"
+                        icon="o-trash"
+                        wire:click="destroy('{{ $user->id }}')"
+                        spinner class="btn-sm"
+                    />
+                @endif
             @else
                 <x-button icon="o-arrow-path-rounded-square" wire:click="restore({{ $user->id }})" spinner
                           class="btn-sm btn-success btn-ghost"/>
@@ -64,4 +72,8 @@
     </x-table>
 
     {{ $this->users->links(data: ['scrollTo' => false]) }}
+
+    <livewire:admin.users.delete/>
+    <x-toast />
+
 </div>
