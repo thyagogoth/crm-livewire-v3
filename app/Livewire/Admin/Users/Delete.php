@@ -42,25 +42,22 @@ class Delete extends Component
         $this->validate();
 
         if($this->user->is(auth()->user())) {
-
-            $this->addError('confirmation', "You can't delete yourself brow.");
+            $this->addError('confirmation', "You can't delete yourself bro.");
 
             return;
         }
 
         $this->user->delete();
-
-        //        $this->toast(
-        //            type: 'success',
-        //            title: 'User deleted successfully.',
-        //            description: null,                  // optional (text)
-        //            position: 'toast-top toast-end',    // optional (daisyUI classes)
-        //            timeout: 3000,                      // optional (ms)
-        //            redirectTo: null                    // optional (uri)
-        //        );
-
         $this->user->notify(new UserDeletedNotification());
-        $this->success('User deleted successfully.');
+
+        $this->toast(
+            type: 'success',
+            title: 'User deleted successfully.',
+            description: null,                  // optional (text)
+            position: 'toast-top toast-end',    // optional (daisyUI classes)
+            timeout: 3000,                      // optional (ms)
+            redirectTo: null                    // optional (uri)
+        );
         $this->dispatch('user::deleted');
         $this->reset('modal');
     }
