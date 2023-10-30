@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}" data-theme="halloween">
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -9,7 +9,7 @@
 </head>
 <body class="min-h-screen font-sans antialiased">
 <x-main full-width>
-    <x-slot:sidebar drawer="main-drawer" collapsible class="pt-3 bg-orange text-white">
+    <x-slot:sidebar drawer="main-drawer" collapsible class="pt-3 bg-sky-800 text-white">
 
         <!-- Hidden when collapsed -->
         <div class="hidden-when-collapsed ml-5 font-black text-4xl text-yellow-500">mary</div>
@@ -22,7 +22,7 @@
 
             <!-- User -->
             @if($user = auth()->user())
-                <x-list-item :item="$user" sub-value="username" no-separator no-hover class="!-mx-2 mt-2 mb-5">
+                <x-list-item :item="$user" sub-value="username" no-separator no-hover class="!-mx-2 mt-2 mb-5 border-y border-y-sky-900">
                     <x-slot:actions>
                         <div class="tooltip tooltip-left" data-tip="logoff">
                             <livewire:auth.logout />
