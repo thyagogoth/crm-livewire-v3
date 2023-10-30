@@ -9,7 +9,7 @@ use Illuminate\Contracts\View\View;
 use Illuminate\Database\Eloquent\{Builder, Collection};
 use Illuminate\Support\Facades\DB;
 use Livewire\Attributes\Computed;
-use Livewire\{Component, WithPagination};
+use Livewire\{Attributes\On, Component, WithPagination};
 
 /**
  * @property-read Collection|User[] $users
@@ -39,6 +39,7 @@ class Index extends Component
         $this->filterPermissions();
     }
 
+    #[On('user::deleted')]
     public function render(): View
     {
         return view('livewire.admin.users.index');
@@ -59,18 +60,16 @@ class Index extends Component
             ->when(
                 $this->search,
                 fn (Builder $q) => $q
-                    ->where(function (Builder $query) {
-                        $query->where(
-                            DB::raw('lower(name)'), /** @phpstan-ignore-line */
-                            'like',
-                            '%' . strtolower($this->search) . '%'
-                        )
-                        ->orWhere(
-                            'email',
-                            'like',
-                            '%' . strtolower($this->search) . '%'
-                        );
-                    })
+                    ->where(
+                        DB::raw('lower(name)'), /** @phpstan-ignore-line */
+                        'like',
+                        '%' . strtolower($this->search) . '%'
+                    )
+                    ->orWhere(
+                        'email',
+                        'like',
+                        '%' . strtolower($this->search) . '%'
+                    )
             )
             ->when(
                 $this->search_permissions,
@@ -111,21 +110,8 @@ class Index extends Component
         $this->sortDirection = $direction;
     }
 
-    public function delete($id): void
+    public function destroy(int $id): void
     {
-        $this->authorize(Can::BE_AN_ADMIN->value);
-
-        User::query()
-            ->where('id', $id)
-            ->delete();
-    }
-
-    public function restore($id): void
-    {
-        $this->authorize(Can::BE_AN_ADMIN->value);
-
-        $user = User::withTrashed()
-            ->where('id', $id)
-            ->restore();
+        $this->dispatch('user::deletion', userId: $id)->to('admin.users.delete');
     }
 }
