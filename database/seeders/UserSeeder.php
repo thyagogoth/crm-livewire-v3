@@ -31,12 +31,12 @@ class UserSeeder extends Seeder
 
         User::factory()
             ->withPermission(Can::TESTING)
-            ->count(82)
+            ->count(68)
             ->create();
 
         User::factory()
             ->withPermission(Can::TESTING)
-            ->count(5)
+            ->count(27)
             ->deleted()
             ->create();
 

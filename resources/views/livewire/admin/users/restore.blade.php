@@ -1,6 +1,6 @@
 <x-modal wire:model="modal"
-         title="Deletion Confirmation"
-         subtitle="You are deleting the user {{ $user?->name }}..."
+         title="Restore Confirmation"
+         subtitle="You are restoring access for the user {{ $user?->name }}"
          separator>
 
     @error('confirmation')
@@ -10,18 +10,16 @@
     @enderror
 
     <div>
-        To confirm, type: <strong>user/{{ $user?->email }}</strong> below
+        To confirm, type: <strong>RESTORE</strong> below
         <x-input
-            class="input-md mt-1"
-            placeholder="type confirmation here"
+            class="input-sm mt-1"
+{{--            label="Type RESTORE` to confirm the restoration"--}}
             wire:model="confirmation_confirmation"
-            icon="o-lock-closed"
         />
     </div>
 
     <x-slot:actions>
         <x-button label="Cancel" @click="$wire.modal = false"/>
-        <x-button label="Confirm" class="btn-primary" spinner wire:click="destroy"/>
+        <x-button label="Confirm" class="btn-primary" spinner wire:click="restore"/>
     </x-slot:actions>
-
 </x-modal>
