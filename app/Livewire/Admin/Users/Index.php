@@ -40,6 +40,7 @@ class Index extends Component
     }
 
     #[On('user::deleted')]
+    #[On('user::restored')]
     public function render(): View
     {
         return view('livewire.admin.users.index');
@@ -61,7 +62,7 @@ class Index extends Component
                 $this->search,
                 fn (Builder $q) => $q
                     ->where(
-                        DB::raw('lower(name)'), /** @phpstan-ignore-line */
+                        DB::raw('lower(name)'), /*** @phpstan ignore-line */
                         'like',
                         '%' . strtolower($this->search) . '%'
                     )
@@ -118,5 +119,15 @@ class Index extends Component
     public function restore(int $id): void
     {
         $this->dispatch('user::restoring', userId: $id)->to('admin.users.restore');
+    }
+
+    public function showUser(int $id): void
+    {
+        $this->dispatch('user::show', id: $id)->to('admin.users.show');
+    }
+
+    public function impersonate(int $id): void
+    {
+        $this->dispatch('user::impersonation', userId: $id)->to('admin.users.impersonate');
     }
 }

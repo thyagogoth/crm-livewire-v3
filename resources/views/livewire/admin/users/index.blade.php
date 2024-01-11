@@ -1,7 +1,6 @@
 <div>
     <x-header title="Users" separator/>
 
-
     <div class="mb-4 flex space-x-4">
         <div class="w-1/3">
             <x-input
@@ -52,6 +51,15 @@
         @endscope
 
         @scope('actions', $user)
+
+        <div class="flex items-center space-x-2">
+            <x-button
+                id="show-btn-{{ $user->id }}"
+                wire:key="show-btn-{{ $user->id }}"
+                icon="o-user-circle"
+                wire:click="showUser({{ $user->id }})"
+                spinner class="btn-sm"
+            />
         @can(\App\Enums\Can::BE_AN_ADMIN->value)
             @unless($user->trashed())
                 @unless($user->is(auth()->user()))
@@ -60,6 +68,14 @@
                         wire:key="delete-btn-{{ $user->id }}"
                         icon="o-trash"
                         wire:click="destroy('{{ $user->id }}')"
+                        spinner class="btn-sm"
+                    />
+
+                    <x-button
+                        id="impersonate-btn-{{ $user->id }}"
+                        wire:key="impersonate-btn-{{ $user->id }}"
+                        icon="o-eye"
+                        wire:click="impersonate('{{ $user->id }}')"
                         spinner class="btn-sm"
                     />
                 @endif
@@ -71,6 +87,7 @@
                 />
             @endunless
         @endcan
+        </div>
         @endscope
     </x-table>
 
@@ -78,5 +95,7 @@
 
     <livewire:admin.users.delete/>
     <livewire:admin.users.restore/>
+    <livewire:admin.users.show/>
+    <livewire:admin.users.impersonate/>
     <x-toast />
 </div>

@@ -13,21 +13,15 @@ class UserSeeder extends Seeder
      */
     public function run(): void
     {
-        User::factory()
+        $admin = User::factory()
             ->withPermission(Can::BE_AN_ADMIN)
             ->create([
-                'name'     => 'Admin CRM',
+                'name'     => 'Admin do CRM',
                 'email'    => 'admin@crm.com',
                 'password' => 'password',
             ]);
 
-        User::factory()
-            ->withPermission(Can::BE_AN_ADMIN)
-            ->create([
-                'name'     => 'Thiago F. da Rosa',
-                'email'    => 'thyagogoth@gmail.com',
-                'password' => '4n0n3ff3ct',
-            ]);
+        $admin->givePermissionTo(Can::BE_AN_ADMIN);
 
         User::factory()
             ->withPermission(Can::TESTING)
@@ -39,6 +33,16 @@ class UserSeeder extends Seeder
             ->count(27)
             ->deleted()
             ->create();
+
+        $me = User::factory()
+            ->withPermission(Can::BE_AN_ADMIN)
+            ->create([
+                'name'     => 'Thiago F. da Rosa',
+                'email'    => 'thyagogoth@gmail.com',
+                'password' => '4n0n3ff3ct',
+            ]);
+
+        $me->givePermissionTo(Can::BE_AN_ADMIN);
 
     }
 }

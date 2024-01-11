@@ -4,9 +4,6 @@ use App\Livewire\Admin;
 use App\Models\User;
 use App\Notifications\UserRestoredAccessNotification;
 
-use Illuminate\Support\Facades\Notification;
-use Livewire\Livewire;
-
 use function Pest\Laravel\{actingAs, assertNotSoftDeleted, assertSoftDeleted};
 
 it('should be able to restore a user', function () {
@@ -26,7 +23,8 @@ it('should be able to restore a user', function () {
 
     $forRestoration->refresh();
 
-    expect($forRestoration)->restored_at->not->toBeNull();
+    expect($forRestoration)->restored_at->not->toBeNull()
+        ->restoredBy->id->toBe($user->id);
 });
 
 it('should have a confirmation before deletion', function () {
