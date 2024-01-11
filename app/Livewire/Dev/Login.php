@@ -9,7 +9,6 @@ use Livewire\Component;
 
 class Login extends Component
 {
-
     public ?int $selectedUser = null;
 
     public function render(): View
@@ -20,7 +19,7 @@ class Login extends Component
     #[Computed]
     public function users(): Collection
     {
-        return \App\Models\User::all();
+        return \App\Models\User::orderBy('name', 'asc')->get();
     }
 
     public function login(): void

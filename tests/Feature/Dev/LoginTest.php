@@ -1,23 +1,55 @@
 <?php
 
+use App\Livewire\Dev\Login;
+use App\Models\User;
+
+use function Pest\Laravel\{actingAs, assertAuthenticatedAs, get};
+
 it('should be able to list all users of the system', function () {
-    \App\Models\User::factory()->count(10)->create();
+    User::factory()->count(10)->create();
 
-    $users = \App\Models\User::all();
+    $users = User::orderBy('name', 'asc')->get();
 
-    Livewire::test(\App\Livewire\Dev\Login::class)
+    Livewire::test(Login::class)
         ->assertSet('users', $users)
         ->assertSee($users->first()->name);
 });
 
+it('should be able to login with any user', function () {
+    $user = User::factory()->create();
 
-it ( 'should be able to login with any user', function(){
-    $user = \App\Models\User::factory()->create();
-
-    Livewire::test(\App\Livewire\Dev\Login::class)
+    Livewire::test(Login::class)
         ->set('selectedUser', $user->id)
         ->call('login')
         ->assertRedirect(route('dashboard'));
 
-    $this->assertAuthenticatedAs($user);
+    assertAuthenticatedAs($user);
+});
+
+it('should not load the livewire component on production environment', function () {
+    $user = User::factory()->create();
+
+    app()->detectEnvironment(fn () => 'production');
+
+    actingAs($user);
+
+    get(route('dashboard')) // app.blade.php
+    ->assertDontSeeLivewire('dev.login');
+
+    get(route('login')) // guest.blade.php
+    ->assertDontSeeLivewire('dev.login');
+});
+
+it('should load the livewire component on non production environments', function () {
+    $user = User::factory()->create();
+
+    app()->detectEnvironment(fn () => 'local');
+
+    actingAs($user);
+
+    get(route('dashboard')) // app.blade.php
+    ->assertSeeLivewire('dev.login');
+
+    get(route('login')) // guest.blade.php
+    ->assertSeeLivewire('dev.login');
 });
