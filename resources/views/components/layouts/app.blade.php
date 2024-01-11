@@ -16,11 +16,11 @@
         <livewire:admin.users.stop-impersonate/>
     @endif
 
-    <livewire:dev.login />
 
-    {{--    @if(!app()->environment('production'))--}}
+    @if(!app()->environment('production'))
 {{--        <x-devbar/>--}}
-{{--    @endif--}}
+    <livewire:dev.login />
+    @endif
 
     <x-main full-width>
 
