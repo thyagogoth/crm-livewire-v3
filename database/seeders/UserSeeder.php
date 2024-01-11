@@ -21,16 +21,16 @@ class UserSeeder extends Seeder
                 'password' => 'password',
             ]);
 
-        $admin->givePermissionTo(Can::BE_AN_ADMIN);
+        //        $admin->givePermissionTo(Can::BE_AN_ADMIN);
 
         User::factory()
             ->withPermission(Can::TESTING)
-            ->count(68)
+            ->count(50)
             ->create();
 
         User::factory()
             ->withPermission(Can::TESTING)
-            ->count(27)
+            ->count(10)
             ->deleted()
             ->create();
 
