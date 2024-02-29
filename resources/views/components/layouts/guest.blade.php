@@ -10,8 +10,7 @@
 <body class="font-sans antialiased">
 
 @if(!app()->environment('production'))
-    {{--        <x-devbar/>--}}
-    <livewire:dev.login />
+    <x-devbar />
 @endif
 
 <div
