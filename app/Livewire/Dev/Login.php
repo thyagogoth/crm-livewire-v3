@@ -2,11 +2,15 @@
 
 namespace App\Livewire\Dev;
 
+use App\Models\User;
 use Illuminate\Contracts\View\View;
 use Illuminate\Database\Eloquent\Collection;
 use Livewire\Attributes\Computed;
 use Livewire\Component;
 
+/**
+ * @property-read Collection|User[] $users
+ */
 class Login extends Component
 {
     public ?int $selectedUser = null;
