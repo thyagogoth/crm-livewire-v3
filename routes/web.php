@@ -2,13 +2,13 @@
 
 use App\Enums\Can;
 use App\Http\Middleware\ShouldBeVerified;
-use App\Livewire\Auth\{Login, Password, Register};
+use App\Livewire\Auth\{EmailValidation, Login, Password, Register};
 use App\Livewire\{Admin, Welcome};
 use Illuminate\Support\Facades\Route;
 
 Route::get('/login', Login::class)->name('login');
 Route::get('/register', Register::class)->name('auth.register');
-Route::get('/email-validation', fn () => 'oi')
+Route::get('/email-validation', EmailValidation::class)
     ->middleware(['auth'])
     ->name('auth.email-validation');
 
