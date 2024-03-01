@@ -62,7 +62,7 @@ describe('validation page', function () {
             ->call('submit')
             ->assertHasNoErrors()
             ->assertRedirect(route('auth.email-validation'));
-    })->todo();
+    });
 
     it('should check if the code is valid', function () {
         $user = User::factory()->withValidationCode()->create();
@@ -73,10 +73,11 @@ describe('validation page', function () {
             ->set('code', '000000')
             ->call('handle')
             ->assertHasErrors(['code']);
-    })->todo();
+    });
 
     it('should be able to send a new code to the user', function () {
-        $user    = User::factory()->withValidationCode()->create();
+        $user = User::factory()->withValidationCode()->create();
+
         $oldCode = $user->validation_code;
 
         actingAs($user);
@@ -86,7 +87,7 @@ describe('validation page', function () {
 
         expect($user)->validation_code->not->toBe($oldCode);
         Notification::assertSentTo($user, ValidationCodeNotification::class);
-    })->todo();
+    });
 
     it('should update email_verified_at and delete the code if the code if valid', function () {
         $user = User::factory()
