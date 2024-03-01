@@ -1,17 +1,22 @@
 <?php
 
 use App\Enums\Can;
-use App\Livewire\Auth\{Login, Password, Register};
+use App\Http\Middleware\ShouldBeVerified;
+use App\Livewire\Auth\{EmailValidation, Login, Password, Register};
 use App\Livewire\{Admin, Welcome};
 use Illuminate\Support\Facades\Route;
 
 Route::get('/login', Login::class)->name('login');
 Route::get('/register', Register::class)->name('auth.register');
+Route::get('/email-validation', EmailValidation::class)
+    ->middleware(['auth'])
+    ->name('auth.email-validation');
+
 Route::get('/logout', fn () => auth()->logout())->name('auth.logout');
 Route::get('/password/recovery', Password\Recovery::class)->name('password.recovery');
 Route::get('/password/reset', Password\Reset::class)->name('password.reset');
 
-Route::middleware(['auth'])
+Route::middleware(['auth', ShouldBeVerified::class])
     ->group(function () {
         Route::get('/', Welcome::class)
             ->name('dashboard');
