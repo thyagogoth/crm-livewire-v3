@@ -106,7 +106,7 @@ describe('validation page', function () {
             ->validation_code->toBeNull();
 
         Notification::assertSentTo($user, WelcomeNotification::class);
-    })->todo();
+    });
 
 });
 
@@ -118,5 +118,5 @@ describe('middleware', function () {
 
         get(route('dashboard'))
             ->assertRedirect(route('auth.email-validation'));
-    })->todo();
+    });
 });
