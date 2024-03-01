@@ -3,18 +3,21 @@
 namespace App\Listeners\Auth;
 
 use App\Events\SendNewCode;
+use App\Models\User;
 use App\Notifications\Auth\ValidationCodeNotification;
+use Exception;
 use Illuminate\Auth\Events\Registered;
 
 class CreateValidationCode
 {
-    /** @phpstan-ignore-next-line */
+    /**
+     * @throws Exception
+     */
     public function handle(Registered|SendNewCode $event): void
     {
-        /** @phpstan-ignore-next-line */
+        /** @var User $user */
         $user = $event->user;
 
-        /** @phpstan-ignore-next-line */
         $user->validation_code = random_int(100000, 999999);
         $user->save();
 

@@ -76,8 +76,7 @@ describe('validation page', function () {
     });
 
     it('should be able to send a new code to the user', function () {
-        $user = User::factory()->withValidationCode()->create();
-
+        $user    = User::factory()->withValidationCode()->create();
         $oldCode = $user->validation_code;
 
         actingAs($user);
