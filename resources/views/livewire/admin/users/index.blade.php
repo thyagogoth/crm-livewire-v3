@@ -21,7 +21,7 @@
         <x-checkbox
             label="Show Deleted Users"
             wire:model.live="search_trash"
-            class="checkbox-primary mt-1"
+            class="checkbox-primary"
             right tight/>
 
         <x-select
@@ -31,7 +31,7 @@
         />
     </div>
 
-    <x-table :headers="$this->headers" :rows="$this->users">
+    <x-table :headers="$this->headers" :rows="$this->items">
         @scope('header_id', $header)
         <x-table.th :$header name="id"/>
         @endscope
@@ -56,46 +56,46 @@
             <x-button
                 id="show-btn-{{ $user->id }}"
                 wire:key="show-btn-{{ $user->id }}"
-                icon="o-user-circle"
+                icon="o-pencil"
                 wire:click="showUser({{ $user->id }})"
                 spinner class="btn-sm"
             />
-        @can(\App\Enums\Can::BE_AN_ADMIN->value)
-            @unless($user->trashed())
-                @unless($user->is(auth()->user()))
-                    <x-button
-                        id="delete-btn-{{ $user->id }}"
-                        wire:key="delete-btn-{{ $user->id }}"
-                        icon="o-trash"
-                        wire:click="destroy('{{ $user->id }}')"
-                        spinner class="btn-sm"
-                    />
 
+            @can(\App\Enums\Can::BE_AN_ADMIN->value)
+                @unless($user->trashed())
+                    @unless($user->is(auth()->user()))
+                        <x-button
+                            id="delete-btn-{{ $user->id }}"
+                            wire:key="delete-btn-{{ $user->id }}"
+                            icon="o-trash"
+                            wire:click="destroy('{{ $user->id }}')"
+                            spinner class="btn-sm"
+                        />
+
+                        <x-button
+                            id="impersonate-btn-{{ $user->id }}"
+                            wire:key="impersonate-btn-{{ $user->id }}"
+                            icon="o-eye"
+                            wire:click="impersonate('{{ $user->id }}')"
+                            spinner class="btn-sm"
+                        />
+
+                    @endif
+                @else
                     <x-button
-                        id="impersonate-btn-{{ $user->id }}"
-                        wire:key="impersonate-btn-{{ $user->id }}"
-                        icon="o-eye"
-                        wire:click="impersonate('{{ $user->id }}')"
-                        spinner class="btn-sm"
+                        icon="o-arrow-path-rounded-square"
+                        wire:click="restore({{ $user->id }})" spinner
+                        class="btn-sm btn-success btn-ghost"
                     />
-                @endif
-            @else
-                <x-button
-                    icon="o-arrow-path-rounded-square"
-                    wire:click="restore({{ $user->id }})" spinner
-                    class="btn-sm btn-success btn-ghost"
-                />
-            @endunless
-        @endcan
-        </div>
+                @endunless
+            @endcan</div>
         @endscope
     </x-table>
 
-    {{ $this->users->links(data: ['scrollTo' => false]) }}
+    {{ $this->items->links(data: ['scrollTo' => false]) }}
 
     <livewire:admin.users.delete/>
     <livewire:admin.users.restore/>
     <livewire:admin.users.show/>
     <livewire:admin.users.impersonate/>
-    <x-toast />
 </div>

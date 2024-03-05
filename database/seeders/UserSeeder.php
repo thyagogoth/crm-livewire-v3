@@ -23,16 +23,9 @@ class UserSeeder extends Seeder
 
         //        $admin->givePermissionTo(Can::BE_AN_ADMIN);
 
-        User::factory()
-            ->withPermission(Can::TESTING)
-            ->count(50)
-            ->create();
-
-        User::factory()
-            ->withPermission(Can::TESTING)
-            ->count(10)
-            ->deleted()
-            ->create();
+        User::factory()->count(50)->withPermission(Can::TESTING)
+        ->create();
+        User::factory()->count(10)->deleted()->create();
 
         $me = User::factory()
             ->withPermission(Can::BE_AN_ADMIN)

@@ -13,7 +13,6 @@
         To confirm, type: <strong>RESTORE</strong> below
         <x-input
             class="input-sm mt-1"
-{{--            label="Type RESTORE` to confirm the restoration"--}}
             wire:model="confirmation_confirmation"
         />
     </div>

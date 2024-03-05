@@ -5,10 +5,15 @@ namespace App\Livewire\Customers;
 use App\Models\Customer;
 use App\Support\Table\Header;
 use App\Traits\Livewire\HasTable;
+use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Contracts\View\View;
-use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\{Builder, Collection};
 use Livewire\{Component, WithPagination};
 
+/**
+ * @property-read LengthAwarePaginator|Customer[] $customers
+ * @property-read array $headers
+ */
 class Index extends Component
 {
     use WithPagination;
