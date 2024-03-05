@@ -19,8 +19,8 @@ return new class () extends Migration {
             $table->integer('validation_code')->nullable();
             $table->string('password');
             $table->rememberToken();
-            $table->softDeletes();
             $table->timestamps();
+            $table->softDeletes();
             $table->datetime('restored_at')->nullable();
             $table->foreignIdFor(User::class, 'restored_by')->nullable();
             $table->foreignIdFor(User::class, 'deleted_by')->nullable();

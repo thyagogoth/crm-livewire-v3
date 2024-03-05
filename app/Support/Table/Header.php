@@ -2,7 +2,7 @@
 
 namespace App\Support\Table;
 
-class Header
+readonly class Header
 {
     public function __construct(
         public string $key,

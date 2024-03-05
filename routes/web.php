@@ -21,7 +21,6 @@ Route::middleware(['auth', ShouldBeVerified::class])->group(function () {
 
     //region Customers
     Route::get('/customers', Customers\Index::class)->name('customers');
-
     //endregion
 
     //region Admin

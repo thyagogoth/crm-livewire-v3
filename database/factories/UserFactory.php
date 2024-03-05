@@ -32,23 +32,9 @@ class UserFactory extends Factory
 
     public function withPermission(Can $key): static
     {
-        return $this->afterCreating(function (User $user) use ($key) {
-            $user->givePermissionTo($key);
-        });
-    }
-
-    public function admin(): static
-    {
-        return $this->afterCreating(function (User $user) {
-            $user->givePermissionTo(Can::BE_AN_ADMIN);
-        });
-    }
-
-    public function deleted(): static
-    {
-        return $this->state(fn (array $attributes) => [
-            'deleted_at' => now(),
-        ]);
+        return $this->afterCreating(
+            fn (User $user) => $user->givePermissionTo($key)
+        );
     }
 
     public function withValidationCode(): static
@@ -58,4 +44,27 @@ class UserFactory extends Factory
             'validation_code'   => random_int(100000, 999999),
         ]);
     }
+
+    public function admin(): static
+    {
+        return $this->afterCreating(function (User $user) {
+            $user->givePermissionTo(Can::BE_AN_ADMIN);
+        });
+    }
+
+    public function testing(): static
+    {
+        return $this->afterCreating(function (User $user) {
+            $user->givePermissionTo(Can::TESTING);
+        });
+    }
+
+    public function deleted(): static
+    {
+        return $this->state(fn (array $attributes) => [
+            'deleted_at' => now(),
+            'deleted_by' => User::factory()->admin(),
+        ]);
+    }
+
 }

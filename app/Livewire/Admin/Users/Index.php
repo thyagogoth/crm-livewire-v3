@@ -4,11 +4,10 @@ namespace App\Livewire\Admin\Users;
 
 use App\Enums\Can;
 use App\Models\{Permission, User};
-use Illuminate\Contracts\Pagination\LengthAwarePaginator;
+use App\Support\Table\Header;
+use App\Traits\Livewire\HasTable;
 use Illuminate\Contracts\View\View;
 use Illuminate\Database\Eloquent\{Builder, Collection};
-use Illuminate\Support\Facades\DB;
-use Livewire\Attributes\Computed;
 use Livewire\{Attributes\On, Component, WithPagination};
 
 /**
@@ -18,20 +17,13 @@ use Livewire\{Attributes\On, Component, WithPagination};
 class Index extends Component
 {
     use WithPagination;
-
-    public ?string $search = null;
+    use HasTable;
 
     public array $search_permissions = [];
 
     public bool $search_trash = false;
 
     public Collection $permissionsToSearch;
-
-    public string $sortDirection = 'desc';
-
-    public string $sortColumnBy = 'id';
-
-    public int $perPage = 15;
 
     public function mount(): void
     {
@@ -51,27 +43,10 @@ class Index extends Component
         $this->resetPage();
     }
 
-    #[Computed]
-    public function users(): LengthAwarePaginator
+    public function query(): Builder
     {
-        $this->validate(['search_permissions' => 'exists:permissions,id']);
-
         return User::query()
             ->with('permissions')
-            ->when(
-                $this->search,
-                fn (Builder $q) => $q
-                    ->where(
-                        DB::raw('lower(name)'), /*** @phpstan ignore-line */
-                        'like',
-                        '%' . strtolower($this->search) . '%'
-                    )
-                    ->orWhere(
-                        'email',
-                        'like',
-                        '%' . strtolower($this->search) . '%'
-                    )
-            )
             ->when(
                 $this->search_permissions,
                 fn (Builder $q) => $q->whereHas('permissions', function (Builder $query) {
@@ -81,19 +56,21 @@ class Index extends Component
             ->when(
                 $this->search_trash,
                 fn (Builder $q) => $q->onlyTrashed()/** @phpstan-ignore-line */
-            )
-            ->orderBy($this->sortColumnBy, $this->sortDirection)
-            ->paginate($this->perPage);
+            );
     }
 
-    #[Computed]
-    public function headers(): array
+    public function searchColumns(): array
+    {
+        return ['name', 'email'];
+    }
+
+    public function tableHeaders(): array
     {
         return [
-            ['key' => 'id', 'label' => '#', 'sortColumnBy' => $this->sortColumnBy, 'sortDirection' => $this->sortDirection],
-            ['key' => 'name', 'label' => 'Name', 'sortColumnBy' => $this->sortColumnBy, 'sortDirection' => $this->sortDirection],
-            ['key' => 'email', 'label' => 'Email', 'sortColumnBy' => $this->sortColumnBy, 'sortDirection' => $this->sortDirection],
-            ['key' => 'permissions', 'label' => 'Permissions', 'sortColumnBy' => $this->sortColumnBy, 'sortDirection' => $this->sortDirection],
+            Header::make('id', '#'),
+            Header::make('name', 'Name'),
+            Header::make('email', 'Email'),
+            Header::make('permissions', 'Permissions'),
         ];
     }
 
@@ -105,15 +82,14 @@ class Index extends Component
             ->get();
     }
 
-    public function sortBy(string $column, string $direction): void
-    {
-        $this->sortColumnBy  = $column;
-        $this->sortDirection = $direction;
-    }
-
     public function destroy(int $id): void
     {
         $this->dispatch('user::deletion', userId: $id)->to('admin.users.delete');
+    }
+
+    public function impersonate(int $id): void
+    {
+        $this->dispatch('user::impersonation', userId: $id)->to('admin.users.impersonate');
     }
 
     public function restore(int $id): void
@@ -124,10 +100,5 @@ class Index extends Component
     public function showUser(int $id): void
     {
         $this->dispatch('user::show', id: $id)->to('admin.users.show');
-    }
-
-    public function impersonate(int $id): void
-    {
-        $this->dispatch('user::impersonation', userId: $id)->to('admin.users.impersonate');
     }
 }

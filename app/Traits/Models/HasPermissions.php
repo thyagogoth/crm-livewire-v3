@@ -3,11 +3,18 @@
 namespace App\Traits\Models;
 
 use App\Enums\Can;
+use App\Models\Permission;
 use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Support\Facades\Cache;
 
 trait HasPermissions
 {
+    public function permissions(): BelongsToMany
+    {
+        return $this->belongsToMany(Permission::class);
+    }
+
     public function givePermissionTo(Can|string $key): void
     {
         $pKey = $key instanceof Can ? $key->value : $key;
