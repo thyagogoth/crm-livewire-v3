@@ -40,7 +40,7 @@ class Restore extends Component
 
         if($this->user->is(auth()->user())) {
 
-            $this->addError('confirmation', "You can't restore yourself brow.");
+            $this->addError('confirmation', "You can't restore yourself, bro.");
 
             return;
         }

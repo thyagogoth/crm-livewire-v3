@@ -12,4 +12,5 @@ class Customer extends Model
     use HasSearch;
     use SoftDeletes;
 
+    protected $guarded = ['id'];
 }
