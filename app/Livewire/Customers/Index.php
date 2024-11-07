@@ -7,8 +7,8 @@ use App\Support\Table\Header;
 use App\Traits\Livewire\HasTable;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Contracts\View\View;
-use Illuminate\Database\Eloquent\{Builder, Collection};
-use Livewire\{Component, WithPagination};
+use Illuminate\Database\Eloquent\{Builder};
+use Livewire\{Attributes\On, Component, WithPagination};
 
 /**
  * @property-read LengthAwarePaginator|Customer[] $customers
@@ -19,6 +19,7 @@ class Index extends Component
     use WithPagination;
     use HasTable;
 
+    #[On('customer::reload')]
     public function render(): View
     {
         return view('livewire.customers.index');

@@ -3,8 +3,6 @@
 use App\Livewire\Auth\Login;
 use Livewire\Livewire;
 
-use function Pest\Laravel\{assertDatabaseCount, assertDatabaseHas};
-
 it('renders successfully', function () {
     Livewire::test(Login::class)
         ->assertOk();

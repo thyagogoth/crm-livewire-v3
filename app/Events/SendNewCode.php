@@ -3,7 +3,7 @@
 namespace App\Events;
 
 use App\Models\User;
-use Illuminate\Broadcasting\{Channel, InteractsWithSockets, PresenceChannel, PrivateChannel};
+use Illuminate\Broadcasting\{InteractsWithSockets, PrivateChannel};
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
 

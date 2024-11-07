@@ -3,9 +3,9 @@
 use App\Livewire\Dev\BranchEnv;
 use App\Models\User;
 
-use  Illuminate\Support\Facades\Process;
+use Illuminate\Support\Facades\Process;
 
-use function Pest\Laravel\{actingAs, assertAuthenticatedAs, get};
+use function Pest\Laravel\{actingAs, get};
 
 it('should show a current branch in the page', function () {
 
