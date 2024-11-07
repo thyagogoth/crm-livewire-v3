@@ -38,7 +38,7 @@ class Restore extends Component
     {
         $this->validate();
 
-        if($this->user->is(auth()->user())) {
+        if ($this->user->is(auth()->user())) {
 
             $this->addError('confirmation', "You can't restore yourself, bro.");
 

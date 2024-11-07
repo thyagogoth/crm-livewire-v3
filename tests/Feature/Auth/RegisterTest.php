@@ -4,7 +4,7 @@ use App\Livewire\Auth\Register;
 use App\Models\User;
 //use App\Notifications\WelcomeNotification;
 use Illuminate\Auth\Events\Registered;
-use Illuminate\Support\Facades\{Event, Notification};
+use Illuminate\Support\Facades\{Event};
 use Livewire\Livewire;
 
 use function Pest\Laravel\{assertDatabaseCount, assertDatabaseHas};
