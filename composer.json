@@ -19,6 +19,7 @@
     },
     "require-dev": {
         "barryvdh/laravel-debugbar": "^3.9",
+        "christophrumpel/missing-livewire-assertions": "^2.9",
         "fakerphp/faker": "^1.9.1",
         "laradumps/laradumps": "^2.5",
         "larastan/larastan": "^2.6",
