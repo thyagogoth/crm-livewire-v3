@@ -7,7 +7,7 @@ use Illuminate\Contracts\View\View;
 use Livewire\Attributes\On;
 use Livewire\Component;
 
-class Archive extends Component
+class Restore extends Component
 {
     public Customer $customer;
 
@@ -15,20 +15,14 @@ class Archive extends Component
 
     public function render(): View
     {
-        return view('livewire.customers.archive');
+        return view('livewire.customers.restore');
     }
 
-    #[On('customer::archive')]
+    #[On('customer::restore')]
     public function confirmAction(int $id): void
     {
-        $this->customer = Customer::findOrFail($id);
+        $this->customer = Customer::query()->onlyTrashed()->findOrFail($id);
         $this->modal    = true;
-    }
-    public function archive(): void
-    {
-        $this->customer->delete();
-        $this->modal = false;
-        $this->dispatch('customer::reload')->to('customers.index');
     }
 
     public function restore(): void
