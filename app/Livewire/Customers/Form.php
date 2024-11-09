@@ -19,7 +19,7 @@ class Form extends BaseForm
     public function rules(): array
     {
         return [
-            'name'  => ['required', 'min:3', 'max:120'] ,
+            'name'  => ['required', 'min:3', 'max:120'],
             'email' => ['required_without:phone', 'email', Rule::unique('customers')->ignore($this->customer?->id)],
             'phone' => ['required_without:email', Rule::unique('customers')->ignore($this->customer?->id)],
         ];
