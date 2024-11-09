@@ -55,7 +55,6 @@ describe('validations', function () {
 
         Livewire::test(Customers\Update::class)
             ->set('form', $this->customer)
-//            ->set('form, $this->customer)
             ->set('form.email', '')
             ->set('form.phone', '1232132')
             ->call('save')
