@@ -16,7 +16,7 @@ trait HasTable
 {
     public ?string $search = null;
 
-    public string $sortDirection = 'desc';
+    public string $sortDirection = 'asc';
 
     public string $sortColumnBy = 'id';
 

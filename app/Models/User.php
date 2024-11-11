@@ -9,6 +9,7 @@ use Illuminate\Database\Eloquent\{SoftDeletes};
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
+use OwenIt\Auditing\Auditable as AuditableTrait;
 use OwenIt\Auditing\Contracts\Auditable;
 
 class User extends Authenticatable implements Auditable
@@ -18,15 +19,16 @@ class User extends Authenticatable implements Auditable
     use Notifiable;
     use HasPermissions;
     use SoftDeletes;
-    use \OwenIt\Auditing\Auditable;
+    use AuditableTrait;
     use HasSearch;
 
     protected $fillable = [
         'name',
         'email',
         'password',
+        'restored_at',
         'restored_by',
-        'deleted_at',
+        'deleted_by',
     ];
 
     protected $hidden = [
@@ -48,5 +50,4 @@ class User extends Authenticatable implements Auditable
     {
         return $this->belongsTo(User::class, 'deleted_by');
     }
-
 }
