@@ -204,6 +204,13 @@
     lodash.merge "^4.6.2"
     postcss-selector-parser "6.0.10"
 
+"@wotz/livewire-sortablejs@^1.0.0":
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/@wotz/livewire-sortablejs/-/livewire-sortablejs-1.0.0.tgz#fa86bc182248cc41de88a852026e248435de58ae"
+  integrity sha512-MtaiAUu5EPiI2XLZeU9rYAQ3NC6L34a+56pTbZCCkvMHsDuSZg+KF6qiX6DhdXihJsC1wIkD04E8vpQK9iak2w==
+  dependencies:
+    sortablejs "^1.15.1"
+
 ansi-regex@^5.0.1:
   version "5.0.1"
   resolved "https://registry.yarnpkg.com/ansi-regex/-/ansi-regex-5.0.1.tgz#082cb2c89c9fe8659a311a53bd6a4dc5301db304"
@@ -915,6 +922,11 @@ signal-exit@^4.0.1:
   version "4.1.0"
   resolved "https://registry.yarnpkg.com/signal-exit/-/signal-exit-4.1.0.tgz#952188c1cbd546070e2dd20d0f41c0ae0530cb04"
   integrity sha512-bzyZ1e88w9O1iNJbKnOlvYTrWPDl46O1bG0D3XInv+9tkPrxrN8jUUTiFlDkkmKWgn1M6CfIA13SuGqOa9Korw==
+
+sortablejs@^1.15.1:
+  version "1.15.3"
+  resolved "https://registry.yarnpkg.com/sortablejs/-/sortablejs-1.15.3.tgz#033668db5ebfb11167d1249ab88e748f27959e29"
+  integrity sha512-zdK3/kwwAK1cJgy1rwl1YtNTbRmc8qW/+vgXf75A7NHag5of4pyI6uK86ktmQETyWRH7IGaE73uZOOBcGxgqZg==
 
 source-map-js@^1.2.1:
   version "1.2.1"
