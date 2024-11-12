@@ -1,7 +1,7 @@
 <?php
 
 use App\Livewire\Opportunities;
-use App\Models\{User};
+use App\Models\{Customer, User};
 
 use function Pest\Laravel\{actingAs, assertDatabaseHas};
 
@@ -10,8 +10,11 @@ beforeEach(function () {
     actingAs($user);
 });
 
-it('should be able to create a customer', function () {
+it('should be able to create an opportunity', function () {
+    $customer = Customer::factory()->create();
+
     Livewire::test(Opportunities\Create::class)
+        ->set('form.customer_id', $customer->id)
         ->set('form.title', 'John Doe')
         ->assertPropertyWired('form.title')
         ->set('form.status', 'won')
@@ -23,15 +26,24 @@ it('should be able to create a customer', function () {
         ->assertHasNoErrors();
 
     assertDatabaseHas('opportunities', [
-        'title'  => 'John Doe',
-        'status' => 'won',
-        //        'amount' => '12345',
-        'amount' => 12345,
-
+        'customer_id' => $customer->id,
+        'title'       => 'John Doe',
+        'status'      => 'won',
+        'amount'      => '12345',
     ]);
 });
 
 describe('validations', function () {
+    test('customer', function ($rule, $value) {
+        Livewire::test(Opportunities\Create::class)
+            ->set('form.customer_id', $value)
+            ->call('save')
+            ->assertHasErrors(['form.customer_id' => $rule]);
+    })->with([
+        'required' => ['required', ''],
+        'exists'   => ['exists', 9430],
+    ]);
+
     test('title', function ($rule, $value) {
         Livewire::test(Opportunities\Create::class)
             ->set('form.title', $value)

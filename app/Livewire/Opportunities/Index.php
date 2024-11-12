@@ -26,12 +26,14 @@ class Index extends Component
     public function query(): Builder
     {
         return Opportunity::query()
+            ->select(['opportunities.*', 'customers.name as customer_name'])
+            ->join('customers', 'opportunities.customer_id', '=', 'customers.id')
             ->when($this->search_trash, fn (Builder $q) => $q->onlyTrashed());
     }
 
     public function searchColumns(): array
     {
-        return ['title', 'status', 'amount'];
+        return ['title', 'customers.name', 'status', 'amount'];
     }
 
     public function tableHeaders(): array
@@ -39,6 +41,7 @@ class Index extends Component
         return [
             Header::make('id', '#'),
             Header::make('title', 'Title'),
+            Header::make('customer_name', 'Customer'),
             Header::make('status', 'Status'),
             Header::make('amount', 'Amount'),
         ];

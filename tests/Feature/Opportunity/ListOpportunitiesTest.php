@@ -37,15 +37,17 @@ test('check the table format', function () {
         ->assertSet('headers', [
             ['key' => 'id', 'label' => '#', 'sortColumnBy' => 'id', 'sortDirection' => 'asc'],
             ['key' => 'title', 'label' => 'Title', 'sortColumnBy' => 'id', 'sortDirection' => 'asc'],
+            ['key' => 'customer_name', 'label' => 'Customer', 'sortColumnBy' => 'id', 'sortDirection' => 'asc'],
             ['key' => 'status', 'label' => 'Status', 'sortColumnBy' => 'id', 'sortDirection' => 'asc'],
             ['key' => 'amount', 'label' => 'Amount', 'sortColumnBy' => 'id', 'sortDirection' => 'asc'],
         ]);
 });
 
 it('should be able to filter by title', function () {
-    $user  = User::factory()->create();
-    $joe   = Opportunity::factory()->create(['title' => 'Joe Doe']);
-    $mario = Opportunity::factory()->create(['title' => 'Mario']);
+    $user     = User::factory()->create();
+    $customer = \App\Models\Customer::factory()->create(['name' => 'BatatinhaFita']);
+    $joe      = Opportunity::factory()->create(['title' => 'Joe Doe', 'customer_id' => $customer->id]);
+    $mario    = Opportunity::factory()->create(['title' => 'Mario', 'customer_id' => $customer->id]);
 
     actingAs($user);
     Livewire::test(Opportunities\Index::class)
