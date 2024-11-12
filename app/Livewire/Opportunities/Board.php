@@ -31,4 +31,9 @@ class Board extends Component
             ")
             ->get();
     }
+
+    public function updateOppurtunities($data)
+    {
+        dd($data);
+    }
 }

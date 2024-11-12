@@ -8,6 +8,7 @@
         "postinsall": "husky install"
     },
     "devDependencies": {
+        "@wotz/livewire-sortablejs": "^1.0.0",
         "autoprefixer": "^10.4.16",
         "axios": "^1.1.2",
         "daisyui": "^3.7.7",
