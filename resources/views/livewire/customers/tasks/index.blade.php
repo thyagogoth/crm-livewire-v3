@@ -12,7 +12,7 @@
                     <x-icon name="o-arrows-up-down" class="w-4 h-4 -mt-px opacity-35" />
                 </button>
                 <input id="task-{{$task->id}}" value="1" @if($task->done_at) checked @endif type="checkbox"
-{{--                       wire:click="toggleTask({{ $task->id }})"--}}
+                       wire:click="toggleChecked({{ $task->id }}, 'done')"
                 >
                 <label for="task-{{ $task->id }}">{{ $task->title }}</label>
                 <select>
@@ -31,7 +31,7 @@
         @foreach($this->doneTasks as $task)
             <li class="flex gap-2">
                 <input id="task-{{$task->id}}" value="1" @if($task->done_at) checked @endif type="checkbox"
-                    {{--                       wire:click="toggleTask({{ $task->id }})"--}}
+                       wire:click="toggleChecked({{ $task->id }}, 'pending')"
                 >
                 <label for="task-{{ $task->id }}">{{ $task->title }}</label>
                 <div class="text-amber-200 text-opacity-40">(assigned to: {{ $task->assignedTo?->name }})</div>
