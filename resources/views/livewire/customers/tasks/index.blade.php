@@ -1,4 +1,7 @@
 <div class="p-4">
+    {{--<livewire:customers.tasks.create :customer="$customer" />--}}
+    <livewire:customers.tasks.create :$customer />
+
     <div class="uppercase font-bold text-slate-600 text-xs mb-2">
         Pending [{{ $this->notDoneTasks()->count() }}]
     </div>
@@ -16,7 +19,7 @@
         @endforeach
     </ul>
 
-    <hr class="border-dashed border-gray-700 my-2">
+{{--    <hr class="border-dashed border-gray-700 my-2">--}}
 
     <div class="uppercase font-bold text-slate-600 text-xs mb-2">
         Done Tasks [{{ $this->doneTasks()->count() }}]
