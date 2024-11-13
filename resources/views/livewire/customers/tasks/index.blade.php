@@ -7,17 +7,23 @@
     </div>
     <ul class="flex flex-col gap-1 mb-6" wire:sortable="updateTaskOrder" wire:sortable.options="{ animation:100 }">
         @foreach($this->notDoneTasks as $task)
-            <li wire:sortable.item="{{ $task->id }}" wire:key="task-{{ $task->id }}" >
-                <button wire:sortable.handle title="{{ __('Drag to reorder') }}" class="cursor-grab">
-                    <x-icon name="o-arrows-up-down" class="w-4 h-4 -mt-px opacity-35" />
+            <li wire:sortable.item="{{ $task->id }}" wire:key="task-{{ $task->id }}"
+            class="flex items-start gap-2 justify-between">
+                <div>
+                    <button wire:sortable.handle title="{{ __('Drag to reorder') }}" class="cursor-grab">
+                        <x-icon name="o-arrows-up-down" class="w-4 h-4 -mt-px opacity-35" />
+                    </button>
+                    <input id="task-{{$task->id}}" value="1" @if($task->done_at) checked @endif type="checkbox"
+                           wire:click="toggleChecked({{ $task->id }}, 'done')"
+                    >
+                    <label for="task-{{ $task->id }}">{{ $task->title }}</label>
+                    <select>
+                        <option>assigned to: {{ $task->assignedTo?->name }}</option>
+                    </select>
+                </div>
+                <button title="{{ __('Delete this task') }}" wire:click="deleteTask({{ $task->id }})">
+                    <x-icon name="o-trash" class="w-4 h-4 -mt-px opacity-35 hover:opacity-100 hover:text-red-500" />
                 </button>
-                <input id="task-{{$task->id}}" value="1" @if($task->done_at) checked @endif type="checkbox"
-                       wire:click="toggleChecked({{ $task->id }}, 'done')"
-                >
-                <label for="task-{{ $task->id }}">{{ $task->title }}</label>
-                <select>
-                    <option>assigned to: {{ $task->assignedTo?->name }}</option>
-                </select>
             </li>
         @endforeach
     </ul>
@@ -29,12 +35,17 @@
     </div>
     <ul class="flex flex-col gap-1">
         @foreach($this->doneTasks as $task)
-            <li class="flex gap-2">
-                <input id="task-{{$task->id}}" value="1" @if($task->done_at) checked @endif type="checkbox"
-                       wire:click="toggleChecked({{ $task->id }}, 'pending')"
-                >
-                <label for="task-{{ $task->id }}">{{ $task->title }}</label>
-                <div class="text-amber-200 text-opacity-40">(assigned to: {{ $task->assignedTo?->name }})</div>
+            <li class="flex items-start gap-2 justify-between">
+                <div>
+                    <input id="task-{{$task->id}}" value="1" @if($task->done_at) checked @endif type="checkbox"
+                           wire:click="toggleChecked({{ $task->id }}, 'pending')"
+                    >
+                    <label for="task-{{ $task->id }}">{{ $task->title }}</label>
+                    <div class="text-amber-200 text-opacity-40">(assigned to: {{ $task->assignedTo?->name }})</div>
+                </div>
+                <button title="{{ __('Delete this task') }}" wire:click="deleteTask({{ $task->id }})">
+                    <x-icon name="o-trash" class="w-4 h-4 -mt-px opacity-35 hover:opacity-100 hover:text-red-500" />
+                </button>
             </li>
         @endforeach
     </ul>

@@ -49,4 +49,9 @@ class Index extends Component
                 fn ($query) => $query->update(['done_at' => null])
             );
     }
+
+    public function deleteTask($taskId): void
+    {
+        Task::whereId($taskId)->delete();
+    }
 }
