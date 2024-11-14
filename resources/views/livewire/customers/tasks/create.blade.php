@@ -7,6 +7,6 @@
         />
     </div>
     <div>
-        <x-button type="submit" class="btn-xs btn-ghost">{{ __('Save') }}</x-button>
+        <x-button type="submit" class="btn-xs btn-ghost hover:bg-cyan-950">{{ __('Save') }}</x-button>
     </div>
 </form>
